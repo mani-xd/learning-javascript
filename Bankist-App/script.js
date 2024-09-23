@@ -58,10 +58,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? `deposit` : `withdrawal`;
 
     const html = `
@@ -197,6 +199,14 @@ btnClose.addEventListener('click', function (e) {
   }
   inputCloseUsername.value = inputClosePin.value = '';
 });
+
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 //////////////////////////////////////////////////////////////////
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -259,8 +269,49 @@ btnClose.addEventListener('click', function (e) {
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 // console.log(account);
 
-const overallBalance = accounts
-  .map(acc => acc.movements)
-  .flat()
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overallBalance);
+// const overallBalance = accounts
+//   .map(acc => acc.movements)
+//   .flat()
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(overallBalance);
+
+// const owner = ['manish', 'sudhanshu', 'anchal', 'aadarsh'];
+// console.log(owner);
+// console.log(owner.sort());
+// console.log(owner);
+
+// console.log(movements);
+
+// // ascending order
+// console.log(
+//   movements.sort((a, b) => {
+//     if (a > b) return 1; //can return any positive number
+//     if (a < b) return -1; ////can return any negative number
+//   })
+// );
+
+// console.log(movements.sort((a, b) => a - b)); //if a > b then the difference will always be positive
+
+// // descending order
+// console.log(
+//   movements.sort((a, b) => {
+//     if (a > b) return -1; //can return any negative number
+//     if (a < b) return 1; ////can return any positive number
+//   })
+// );
+
+// console.log(movements.sort((a, b) => b - a)); //if a > b then the difference will always be negative
+
+// const a = Array.from(
+//   { length: 100 },
+//   (_, i) => Math.trunc(Math.random() * 6) + 1
+// );
+// console.log(a);
+
+labelBalance.addEventListener('click', function () {
+  const movementUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => el.textContent.replace('₹ ', '')
+  );
+  console.log(movementUI);
+});
