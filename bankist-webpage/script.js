@@ -42,26 +42,41 @@ btnScrollTo.addEventListener('click', function (e) {
 
 // document.querySelectorAll('.nav__link').forEach(function (el) {
 //   el.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     // console.log('hello');
-
-//     const id = this.getAttribute('href');
-//     console.log(id);
-//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
-//   });
+//
 // });
 
 // 1. add eventListner to parent common element
 // 2. determine what element originted the event
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
-  console.log(e.target);
+  e.preventDefault();
+
   // matching stratagy
   if (e.target.classList.contains('nav__link')) {
-    console.log('link');
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
 
+// tabbed component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  // guard clause
+  if (!clicked) return;
+  // active tab
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  // activate content area
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
@@ -140,4 +155,27 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // document.querySelector('.nav').addEventListener('click', function (e) {
 //   this.style.backgroundColor = randomColor();
 //   console.log('nav', e.target, e.currentTarget);
+// });
+
+// const h1 = document.querySelector('h1');
+
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes);
+// console.log(h1.children);
+// h1.firstElementChild.style.color = 'white';
+// h1.lastElementChild.style.color = 'black';
+
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling);
+
+// console.log(h1.parentElement.children);
+
+// [...h1.parentElement.children].forEach(function (el) {
+//   if (el !== h1) el.style.transform = 'scale(0.9)';
 // });
